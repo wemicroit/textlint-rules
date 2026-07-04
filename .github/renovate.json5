@@ -5,6 +5,27 @@
     "helpers:pinGitHubActionDigestsToSemver",
     ":separateMultipleMajorReleases",
   ],
+  packageRules: [
+    {
+      groupName: "all patching versions",
+      matchUpdateTypes: ["patch", "digest"],
+      schedule: ["before 6am every weekday"],
+    },
+    {
+      groupName: "all minor ci versions",
+      matchCategory: ["ci"],
+      matchUpdateTypes: ["minor"],
+      schedule: ["before 6am every weekday"],
+    },
+    {
+      matchUpdateTypes: ["minor"],
+      schedule: ["before 7am on Monday"],
+    },
+    {
+      matchUpdateTypes: ["major"],
+      schedule: ["before 8am on Monday"],
+    },
+  ],
   customManagers: [
     {
       customType: "regex",
