@@ -13,7 +13,7 @@
     },
     {
       groupName: "all minor ci versions",
-      matchCategory: ["ci"],
+      matchCategories: ["ci"],
       matchUpdateTypes: ["minor"],
       schedule: ["before 6am every weekday"],
     },
