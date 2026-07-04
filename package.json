@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "devDependencies": {
+    "cspell": "10.0.1",
+    "markdownlint-cli2": "0.22.1",
+    "prettier": "3.8.4"
+  }
+}
