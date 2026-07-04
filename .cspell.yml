@@ -2,6 +2,9 @@ version: "0.2"
 caseSensitive: false
 useGitignore: true
 enableGlobDot: true
+ignorePaths:
+  - ".git"
+  - "**/CODEOWNERS"
 patterns:
   - name: CodeBlock
     pattern: |
