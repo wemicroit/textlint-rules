@@ -1,0 +1,44 @@
+version: "0.2"
+caseSensitive: false
+useGitignore: true
+enableGlobDot: true
+patterns:
+  - name: CodeBlock
+    pattern: |
+      /
+          ^(\s*[~`]{3,})   # code-block start
+          .*               # all languages and options, e.g. shell {hl_lines=[12]}
+          [\s\S]*?         # content
+          \1               # code-block end
+      /igmx
+  - name: CodeName
+    pattern: |
+      /
+          ([~`])          # Matches a single backtick or tilde to start a code block.
+          [^~`]*?         # Matches any characters except backticks or tildes, non-greedy.
+          \1              # Matches the same symbol which started the match.
+      /x
+languageSettings:
+  - languageId: json, jsonc
+    includeRegExpList:
+      - CStyleComment
+  - languageId: markdown
+    ignoreRegExpList:
+      - CodeBlock
+      - CodeName
+      - GitHub Handle
+      - Renovate PR
+  - languageId: javascript
+    includeRegExpList:
+      - "#.*/g"
+    ignoreRegExpList:
+      - CodeName
+  - languageId: dockerfile, dockercompose, properties, yaml
+    includeRegExpList:
+      - "/#.*/g"
+    ignoreRegExpList:
+      - CodeName
+dictionaries:
+  - javascript
+  - softwareTerms
+  - software-tools
