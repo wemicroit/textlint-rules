@@ -1,6 +1,6 @@
 # textlint-rule-frontmatter
 
-A TextLint rule plugin which performs the following checks on the Yaml FrontMatter in the docs:
+A textlint rule plugin which performs the following checks on the Yaml Frontmatter in the docs:
 
 - Title matches h1 heading
 
