@@ -17,6 +17,12 @@ tester.run("rule", rule, {
             options: {
                 "titles-must-match": false
             }
+        },
+        {
+            text: "---\ntitle: test heading2\nlinkTitle: link\n---\n\n # test heading \n\n ## test heading2",
+            options: {
+                "property-order": ["title"]
+            }
         }
     ],
     invalid: [
@@ -52,6 +58,17 @@ tester.run("rule", rule, {
             errors: [
                 {
                     message: "No Header matches FrontMatter title.",
+                }
+            ]
+        },
+        {
+            text: "---\ntitle: test heading\n---\n\n",
+            options: {
+                "property-order": ["title", "linkTitle"]
+            },
+            errors: [
+                {
+                    message: "FrontMatter property in wrong order/missing.",
                 }
             ]
         },

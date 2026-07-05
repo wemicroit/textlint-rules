@@ -8,12 +8,18 @@ const yaml = require('js-yaml');
 export default function (context, options = {}) {
     const { Syntax, RuleError, report, locator } = context;
     const matchingTitles = options["titles-must-match"] ?? true;
+    const propertyOrder = options["property-order"] ?? [];
     var frontmatter;
     var titleMatched;
     return {
         ['Yaml'](node) { // "Yaml" node
             const text = node.value; // Get text
             frontmatter = yaml.load(text);
+            const actual = Object.keys(frontmatter);
+            const expected = [...propertyOrder, ...actual.filter(k => !propertyOrder.includes(k))];
+            const mismatches = propertyOrder.length > 0 ? actual
+              .map((key, i) => ({ key, i, expected: expectedOrder[i] }))
+              .filter(x => x.key !== x.expected) : [];
         },
         ['Header'](node) { // "Header" node
             if (node.depth !== 1) {
