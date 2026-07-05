@@ -1,0 +1,33 @@
+{
+  "name": "textlint-rule-spectral",
+  "version": "0.0.0",
+  "description": "",
+  "keywords": [
+    "textlintrule"
+  ],
+  "license": "MIT",
+  "author": "WeMicroIt",
+  "type": "commonjs",
+  "main": "lib/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "files": [
+    "lib/",
+    "src/"
+  ],
+  "scripts": {
+    "test": "textlint-scripts test",
+    "build": "textlint-scripts build",
+    "prepublish": "npm run --if-present build"
+  },
+  "devDependencies": {
+    "@textlint/types": "15.7.1",
+    "textlint-scripts": "15.7.1",
+    "textlint-tester": "15.7.1"
+  },
+  "dependencies": {
+    "@stoplight/spectral-core": "^1.23.1",
+    "@stoplight/spectral-functions": "^1.10.5"
+  }
+}
