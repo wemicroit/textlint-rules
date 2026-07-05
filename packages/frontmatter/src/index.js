@@ -1,4 +1,4 @@
-const matter = require('gray-matter');
+const yaml = require('js-yaml');
 
 /**
  * @param {import("@textlint/types").TextlintRuleContext} context
@@ -8,12 +8,12 @@ const matter = require('gray-matter');
 export default function (context, options = {}) {
     const { Syntax, RuleError, report, locator } = context;
     const matchingTitles = options["titles-must-match"] ?? true;
-    var fmTitle;
+    var frontmatter;
     var titleMatched;
     return {
         ['Yaml'](node) { // "Yaml" node
-            const text = node.raw; // Get text
-            fmTitle = matter(text).data.title;
+            const text = node.value; // Get text
+            frontmatter = yaml.load(text);
         },
         ['Header'](node) { // "Header" node
             if (node.depth !== 1) {
@@ -23,23 +23,23 @@ export default function (context, options = {}) {
             if (!matchingTitles) {
                 return;
             }
-            if (text === fmTitle) {
+            if (text === frontmatter?.title) {
                 titleMatched = true;
                 return;
             }
-            else if (fmTitle === undefined) {
+            else if (frontmatter?.title === undefined) {
                 const ruleError = new RuleError("No FrontMatter Title found to match to.");
-                    titleMatched = false;
+                titleMatched = false;
                 report(node, ruleError);
             }
             else {
                 const ruleError = new RuleError("Header does not match FrontMatter title.");
-                    titleMatched = false;
+                titleMatched = false;
                 report(node, ruleError);
             }
         },
         [Syntax.DocumentExit](node) {
-            if ( matchingTitles && titleMatched === undefined && fmTitle !== undefined) {
+            if ( matchingTitles && titleMatched === undefined && frontmatter?.title !== undefined) {
                 report(
                     node,
                     new RuleError("No Header matches FrontMatter title.")
