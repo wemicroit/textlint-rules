@@ -22,9 +22,9 @@
     "prepublish": "npm run --if-present build"
   },
   "devDependencies": {
-    "@textlint/types": "^15.7.1",
-    "textlint-scripts": "^15.7.1",
-    "textlint-tester": "^15.7.1"
+    "@textlint/types": "15.7.1",
+    "textlint-scripts": "15.7.1",
+    "textlint-tester": "15.7.1"
   },
   "dependencies": {
     "gray-matter": "^4.0.3"
