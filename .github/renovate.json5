@@ -5,6 +5,8 @@
     "helpers:pinGitHubActionDigestsToSemver",
     ":separateMultipleMajorReleases",
   ],
+  osvVulnerabilityAlerts: true,
+  reviewersFromCodeOwners: true,
   packageRules: [
     {
       groupName: "all patching versions",
