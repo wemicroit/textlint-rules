@@ -10,9 +10,11 @@ const { schema } = require("@stoplight/spectral-functions");
 export default function (context, options = {}) {
   const { Syntax, RuleError, report, getSource, locator } = context;
   
-  const propeties = Object.fromEntries(options["properties"]?.map(key => [key, {}]) ?? []);
+  const propeties = Object.fromEntries(
+    options["properties"]?.map(key => [key, {}]) ?? []
+  );
   const additionalProperties = options["additional-properties"] ?? true;
-  const requiredProperties = options["required-properties"] ?? []
+  const requiredProperties = options["required-properties"] ?? [];
   return {
     async ["Yaml"](node) {
       // "Yaml" node

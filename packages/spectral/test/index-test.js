@@ -10,7 +10,7 @@ tester.run("rule", rule, {
       text: "---\ntitle: test heading2\nlinkTitle: link\n---\n\n # test heading \n\n ## test heading2",
       options: {
         "additional-properties": false,
-        "properties": ["title", "linkTitle"],
+        properties: ["title", "linkTitle"],
         "required-properties": ["title", "linkTitle"],
       },
     },
@@ -18,7 +18,7 @@ tester.run("rule", rule, {
       text: "---\ntitle: test heading2\nlinkTitle: link\n---\n\n # test heading \n\n ## test heading2",
       options: {
         "additional-properties": false,
-        "properties": ["title", "linkTitle"],
+        properties: ["title", "linkTitle"],
         "required-properties": ["title"],
       },
     },
@@ -26,14 +26,14 @@ tester.run("rule", rule, {
       text: "---\ntitle: test heading2\nlinkTitle: link\n---\n\n # test heading \n\n ## test heading2",
       options: {
         "additional-properties": false,
-        "properties": ["title", "linkTitle"],
+        properties: ["title", "linkTitle"],
       },
     },
     {
       text: "---\ntitle: test heading2\nlinkTitle: link\n---\n\n # test heading \n\n ## test heading2",
       options: {
         "additional-properties": true,
-        "properties": ["title"],
+        properties: ["title"],
         "required-properties": ["title"],
       },
     },
@@ -43,12 +43,12 @@ tester.run("rule", rule, {
       text: "---\ntitle: test heading2\nlinkTitle: link\n---\n\n # test heading \n\n ## test heading2",
       options: {
         "additional-properties": false,
-        "properties": ["title"],
+        properties: ["title"],
         "required-properties": ["title"],
       },
       errors: [
         {
-          message: "Property \"linkTitle\" is not expected to be here",
+          message: 'Property "linkTitle" is not expected to be here',
         },
       ],
     },
@@ -56,15 +56,15 @@ tester.run("rule", rule, {
       text: "---\ntitle: test heading2\nrandom: link\n---\n\n # test heading \n\n ## test heading2",
       options: {
         "additional-properties": false,
-        "properties": ["title", "linkTitle"],
+        properties: ["title", "linkTitle"],
         "required-properties": ["title", "linkTitle"],
       },
       errors: [
         {
-          message: "Object must have required property \"linkTitle\"",
+          message: 'Object must have required property "linkTitle"',
         },
         {
-          message: "Property \"random\" is not expected to be here",
+          message: 'Property "random" is not expected to be here',
         },
       ],
     },
