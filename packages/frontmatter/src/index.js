@@ -15,11 +15,21 @@ export default function (context, options = {}) {
         ['Yaml'](node) { // "Yaml" node
             const text = node.value; // Get text
             frontmatter = yaml.load(text);
+            if(propertyOrder.length === 0) {
+                return;
+            }
             const actual = Object.keys(frontmatter);
-            const expected = [...propertyOrder, ...actual.filter(k => !propertyOrder.includes(k))];
-            const mismatches = propertyOrder.length > 0 ? actual
-              .map((key, i) => ({ key, i, expected: expectedOrder[i] }))
-              .filter(x => x.key !== x.expected) : [];
+            for(var i = 0; i < propertyOrder.length; i++) {
+                var position = actual.indexOf(propertyOrder[i]);
+                if (position === -1) {
+                    const ruleError = new RuleError(`Missing required property: ${propertyOrder[i]}.`);
+                    report(node, ruleError);
+                }
+                else if (position !== i) {
+                    const ruleError = new RuleError(`Property ${propertyOrder[i]} is out of order. Expected position: ${i}, Actual position: ${position}.`);
+                    report(node, ruleError);
+                }
+            }
         },
         ['Header'](node) { // "Header" node
             if (node.depth !== 1) {
