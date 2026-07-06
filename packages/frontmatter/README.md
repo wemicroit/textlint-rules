@@ -32,21 +32,21 @@ textlint --rule frontmatter README.md
 
 ## Configuration Options
 
-### titles-must-match
-
-Ensures that all documents must have a front matter title and it must match the h1 used in the document.
-
-- **Config Property:** `titles-must-match`
-- **Value type:** `boolean`
-- **Default Value:** `true`
-
-### property-order
+#### property-order
 
 Defines a list of frontmatter properties that are required to be present as well as the order in which they appear.
 
 - **Config Property:** `property-order`
 - **Value type:** `string[]`
 - **Default Value:** `[]`
+
+## titles-must-match
+
+Ensures that all documents must have a front matter title and it must match the h1 used in the document.
+
+- **Config Property:** `titles-must-match`
+- **Value type:** `boolean`
+- **Default Value:** `true`
 
 ## License
 
