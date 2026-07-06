@@ -11,7 +11,7 @@ export default function (context, options = {}) {
   const { RuleError, report } = context;
 
   const propeties = Object.fromEntries(
-    options["properties"]?.map((key) => [key, {}]) ?? []
+    options["properties"]?.map((key) => [key, {}]) ?? [],
   );
   const additionalProperties = options["additional-properties"] ?? true;
   const requiredProperties = options["required-properties"] ?? [];
