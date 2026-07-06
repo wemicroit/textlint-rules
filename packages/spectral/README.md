@@ -35,7 +35,7 @@ textlint --rule spectral README.md
 
 ### additional-properties
 
-Enables the yaml in the document to contain properties in addition to those defined in the `properties` setting. 
+Enables the yaml in the document to contain properties in addition to those defined in the `properties` setting.
 This setting behaves the same as `additionalProperties` in json-schema.
 
 - **Config Property:** `additional-properties`
