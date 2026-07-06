@@ -18,9 +18,9 @@ Via `.textlintrc.json`(Recommended)
 
 ```json
 {
-    "rules": {
-        "frontmatter": true
-    }
+  "rules": {
+    "frontmatter": true
+  }
 }
 ```
 
