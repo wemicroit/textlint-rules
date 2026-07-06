@@ -32,7 +32,7 @@ textlint --rule frontmatter README.md
 
 ## Configuration Options
 
-#### property-order
+### property-order
 
 Defines a list of frontmatter properties that are required to be present as well as the order in which they appear.
 
@@ -40,7 +40,7 @@ Defines a list of frontmatter properties that are required to be present as well
 - **Value type:** `string[]`
 - **Default Value:** `[]`
 
-## titles-must-match
+### titles-must-match
 
 Ensures that all documents must have a front matter title and it must match the h1 used in the document.
 
@@ -50,4 +50,4 @@ Ensures that all documents must have a front matter title and it must match the 
 
 ## License
 
-MIT © WeMicro It
+MIT © WeMicroIt
