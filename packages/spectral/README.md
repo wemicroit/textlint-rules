@@ -35,7 +35,8 @@ textlint --rule spectral README.md
 
 ### additional-properties
 
-Enables the yaml in the document to contain properties in addition to those defined in the `properties` setting. This setting behaves the same as `additionalProperties` in json-schema.
+Enables the yaml in the document to contain properties in addition to those defined in the `properties` setting. 
+This setting behaves the same as `additionalProperties` in json-schema.
 
 - **Config Property:** `additional-properties`
 - **Value type:** `boolean`
@@ -43,7 +44,9 @@ Enables the yaml in the document to contain properties in addition to those defi
 
 ### properties
 
-Defines the properties which MAY appear in the yaml in the document with `required-properties` defining those which MUST be present. This setting behaves the same as `properties` in json-schema.
+Defines the properties which MAY appear in the yaml in the document.
+Use `required-properties` to define the properties which MUST be present.
+This setting behaves the same as `properties` in json-schema.
 
 - **Config Property:** `properties`
 - **Value type:** `string[]`
@@ -51,7 +54,8 @@ Defines the properties which MAY appear in the yaml in the document with `requir
 
 ### required-properties
 
-Defines the properties which MUST appear in the yaml in the document. This setting behaves the same as `requiredProperties` in json-schema.
+Defines the properties which MUST appear in the yaml in the document.
+This setting behaves the same as `requiredProperties` in json-schema.
 
 - **Config Property:** `required-properties`
 - **Value type:** `string[]`
