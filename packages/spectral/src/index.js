@@ -8,10 +8,10 @@ const { schema } = require("@stoplight/spectral-functions");
  * @returns {import("@textlint/types").TextlintRuleCreator}
  */
 export default function (context, options = {}) {
-  const { Syntax, RuleError, report, getSource, locator } = context;
-  
+  const { RuleError, report } = context;
+
   const propeties = Object.fromEntries(
-    options["properties"]?.map(key => [key, {}]) ?? []
+    options["properties"]?.map((key) => [key, {}]) ?? []
   );
   const additionalProperties = options["additional-properties"] ?? true;
   const requiredProperties = options["required-properties"] ?? [];
@@ -45,7 +45,6 @@ export default function (context, options = {}) {
         },
       });
 
-      var errors = [];
       // we lint our document using the ruleset we passed to the Spectral object
       var results = await spectral.run(myDocument);
       for (const result of results) {
