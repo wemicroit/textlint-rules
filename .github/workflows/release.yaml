@@ -35,7 +35,7 @@ jobs:
 
       # This explicitly sets the version of the npm package to match that of the tag.
       - run: npm version $RELEASE_VERSION --no-git-tag-version
-        working-directory: packages/${{ github.event.inputs.packageh }}
+        working-directory: packages/${{ github.event.inputs.package }}
         env:
           RELEASE_VERSION: ${{ github.event.inputs.version }}
 
@@ -87,6 +87,7 @@ jobs:
           tag_name: ${{ steps.tag.outputs.tag }}
           name: "${{ github.event.inputs.package }} v${{ github.event.inputs.version }}"
           generate_release_notes: true
+          draft: true
           working-directory: packages/${{ github.event.inputs.package }}
           files: |
             ./textlint-*.tgz
