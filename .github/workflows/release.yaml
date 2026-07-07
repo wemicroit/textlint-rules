@@ -3,7 +3,13 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      name:
+      package:
+        description: Package to release
+        required: true
+        type: choice
+        options:
+          - frontmatter
+          - spectral
       version:
         description: Version to release
         required: true
@@ -29,20 +35,25 @@ jobs:
 
       # This explicitly sets the version of the npm package to match that of the tag.
       - run: npm version $RELEASE_VERSION --no-git-tag-version
+        working-directory: packages/${{ github.event.inputs.package }}
         env:
           RELEASE_VERSION: ${{ github.event.inputs.version }}
 
       - run: npm ci --ignore-scripts
+        working-directory: packages/${{ github.event.inputs.package }}
 
       - run: npm test
+        working-directory: packages/${{ github.event.inputs.package }}
 
       # note if locally preparing packages you will need to explicitly set the version in package.json,
       # see for discussion https://github.com/thlorenz/doctoc/pull/289#discussion_r2649551681 for more details.
       - run: npm pack
+        working-directory: packages/${{ github.event.inputs.package }}
 
       - name: NPM Publish
         id: publish
         run: npm publish
+        working-directory: packages/${{ github.event.inputs.package }}
         continue-on-error: true
 
       - name: Create issue on npm publish failure
@@ -54,10 +65,29 @@ jobs:
             --title "NPM Publish step failed for release ${GITHUB_REF_NAME}" \
             --body "The NPM publish step failed for release: ${GITHUB_REF_NAME}. The npm package will need to be manually uploaded to NPM." \
             --assignee thompson-tomo
+        working-directory: packages/${{ github.event.inputs.package }}
+
+      - name: Compute tag
+        id: tag
+        run: |
+          TAG="${{ github.event.inputs.package }}/v${{ github.event.inputs.version }}"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Create tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git tag "${{ steps.tag.outputs.tag }}"
+          git push origin "${{ steps.tag.outputs.tag }}"
 
       - name: Release
         uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b # v3.0.1
         with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: "${{ github.event.inputs.package }} v${{ github.event.inputs.version }}"
           generate_release_notes: true
+          draft: true
+          working-directory: packages/${{ github.event.inputs.package }}
           files: |
             ./textlint-*.tgz
