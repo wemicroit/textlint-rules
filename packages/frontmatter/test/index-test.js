@@ -15,21 +15,21 @@ tester.run("rule", rule, {
     {
       text: "---\ntitle: test heading2\n---\n\n # test heading \n\n ## test heading2",
       options: {
-        "titles-must-match": false,
+        "title-must-match-h1": false,
       },
     },
     {
       text: "---\ntitle: test heading2\nlinkTitle: link\n---\n\n # test heading \n\n ## test heading2",
       options: {
-        "property-order": ["title"],
-        "titles-must-match": false,
+        "ordered-properties": ["title"],
+        "title-must-match-h1": false,
       },
     },
     {
       text: "---\ntitle: test heading2\nlinkTitle: link\nrandom: value\n---\n\n # test heading \n\n ## test heading2",
       options: {
-        "property-order": ["title", "linkTitle"],
-        "titles-must-match": false,
+        "ordered-properties": ["title", "linkTitle"],
+        "title-must-match-h1": false,
       },
     },
   ],
@@ -37,7 +37,7 @@ tester.run("rule", rule, {
     {
       text: "---\ntitle: test heading2\n---\n\n # test heading \n\n ## test heading2",
       options: {
-        "titles-must-match": true,
+        "title-must-match-h1": true,
       },
       errors: [
         {
@@ -72,8 +72,8 @@ tester.run("rule", rule, {
     {
       text: "---\ntitle: test heading\n---\n\n",
       options: {
-        "property-order": ["title", "linkTitle"],
-        "titles-must-match": false,
+        "ordered-properties": ["title", "linkTitle"],
+        "title-must-match-h1": false,
       },
       errors: [
         {
@@ -84,8 +84,8 @@ tester.run("rule", rule, {
     {
       text: "---\nlinkTitle: test heading\ntitle: test heading\n---\n\n",
       options: {
-        "property-order": ["title", "linkTitle"],
-        "titles-must-match": false,
+        "ordered-properties": ["title", "linkTitle"],
+        "title-must-match-h1": false,
       },
       errors: [
         {
@@ -101,8 +101,8 @@ tester.run("rule", rule, {
     {
       text: "---\nlinkTitle: test heading\ntitle: test heading\n---\n\n",
       options: {
-        "property-order": ["title"],
-        "titles-must-match": false,
+        "ordered-properties": ["title"],
+        "title-must-match-h1": false,
       },
       errors: [
         {
