@@ -7,8 +7,8 @@ const yaml = require("js-yaml");
  */
 export default function (context, options = {}) {
   const { Syntax, RuleError, report, locator } = context;
-  const matchingTitles = options["titles-must-match"] ?? true;
-  const propertyOrder = options["property-order"] ?? [];
+  const matchingTitles = options["title-must-match-h1"] ?? true;
+  const propertyOrder = options["ordered-properties"] ?? [];
   var frontmatter;
   var titleMatched;
   return {
