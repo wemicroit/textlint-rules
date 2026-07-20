@@ -3,7 +3,7 @@
   "devDependencies": {
     "create-textlint-rule": "2.0.0",
     "cspell": "10.0.1",
-    "markdownlint-cli2": "0.23.0",
+    "markdownlint-cli2": "0.23.1",
     "prettier": "3.9.5"
   }
 }
