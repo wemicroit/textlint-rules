@@ -7,16 +7,22 @@ const yaml = require("js-yaml");
  */
 export default function (context, options = {}) {
   const { Syntax, RuleError, report, locator } = context;
-  const matchingTitles = options["title-must-match-h1"] ?? true;
+  const matchingTitles = options["title-must-match-h1"] ?? false;
   const propertyOrder = options["ordered-properties"] ?? [];
   const requireOrdered = options["require-ordered-properties"] ?? false;
   var frontmatter;
-  var headerContent;
+  var docHeader;
+  var initialHeader;
   return {
     ["Yaml"](node) {
       // "Yaml" node
       const text = node.value; // Get text
       frontmatter = yaml.load(text);
+      
+      if (matchingTitles && frontmatter?.title === undefined) {
+        const ruleError = new RuleError("FrontMatter title is missing.");
+        report(node, ruleError);
+      }
       if (propertyOrder.length === 0) {
         return;
       }
@@ -41,35 +47,22 @@ export default function (context, options = {}) {
     },
     ["Header"](node) {
       // "Header" node
-      if (node.depth === 1 && headerContent === undefined) {
-        headerContent = node.children.find((c) => c.type === "Str")?.value ?? ""; // Get text
+      if (node.depth === 1 && initialHeader === undefined) {
+        docHeader = node.children.find((c) => c.type === "Str")?.value ?? ""; // Get text
+        initialHeader = true;
       }
+      if (matchingTitles && initialHeader && docHeader.trim() !== frontmatter?.title?.trim()) {
+        const ruleError = new RuleError(
+          `Header ${docHeader.trim()} does not match FrontMatter title. Expected header: ${frontmatter?.title}`
+        );
+        report(node, ruleError);
+      }
+      initialHeader = false;
     },
     [Syntax.DocumentExit](node) {
-      if (matchingTitles) {
-        checkTitleMatches(report, frontmatter?.title, headerContent);
+      if (matchingTitles && docHeader === undefined) {
+        report(node, new RuleError("No H1 Header found."));
       }
     },
   };
-}
-
-function checkTitleMatches(report, title, header) {
-  var missing = false;
-  if (header === undefined) {
-    report(node, new RuleError("No Header found."));
-    missing = true;
-  }
-  if (title === undefined) {
-    const ruleError = new RuleError(
-      "FrontMatter title is missing.",
-    );
-    report(node, ruleError);
-    missing = true;
-  }
-  if (!missing && header.trim() !== title.trim()) {
-    const ruleError = new RuleError(
-      `Header ${text.trim()} does not match FrontMatter title. Expected header: ${frontmatter?.title}`,
-    );
-    report(node, ruleError);
-  }
 }
