@@ -17,6 +17,9 @@ tester.run("rule", rule, {
     },
     {
       text: "---\ntitle: test heading2\n---\n\n # test heading \n\n ## test heading2",
+    },
+    {
+      text: "---\ntitle: test heading2\n---\n\n # test heading \n\n ## test heading2",
       options: {
         "title-must-match-h1": false,
       },
@@ -52,31 +55,18 @@ tester.run("rule", rule, {
       },
       errors: [
         {
-          message: "Header does not match FrontMatter title.",
-        },
-      ],
-    },
-    {
-      text: "---\ntitle: test heading2\n---\n\n # test heading \n\n ## test heading2",
-      errors: [
-        {
-          message: "Header does not match FrontMatter title.",
-        },
-      ],
-    },
-    {
-      text: "---\ntitle: test heading\n---\n\n # test heading2",
-      errors: [
-        {
-          message: "Header does not match FrontMatter title.",
+          message: "Header test heading does not match FrontMatter title. Expected header: test heading2",
         },
       ],
     },
     {
       text: "---\ntitle: test heading\n---\n\n",
+      options: {
+        "title-must-match-h1": true,
+      },
       errors: [
         {
-          message: "No Header matches FrontMatter title.",
+          message: "No H1 Header found.",
         },
       ],
     },
@@ -89,7 +79,7 @@ tester.run("rule", rule, {
       },
       errors: [
         {
-          message: "Missing required property: linkTitle.",
+          message: "Missing required property: linkTitle",
         },
       ],
     },
@@ -102,11 +92,11 @@ tester.run("rule", rule, {
       errors: [
         {
           message:
-            "Property title is out of order. Expected position: 0, Actual position: 1.",
+            "Property title is out of order. Expected position: 0, Actual position: 1",
         },
         {
           message:
-            "Property linkTitle is out of order. Expected position: 1, Actual position: 0.",
+            "Property linkTitle is out of order. Expected position: 1, Actual position: 0",
         },
       ],
     },
@@ -120,7 +110,7 @@ tester.run("rule", rule, {
       errors: [
         {
           message:
-            "Property linkTitle is out of order. Expected position: 1, Actual position: 2.",
+            "Property linkTitle is out of order. Expected position: 1, Actual position: 2",
         },
       ],
     },
@@ -134,7 +124,7 @@ tester.run("rule", rule, {
       errors: [
         {
           message:
-            "Property linkTitle is out of order. Expected position: 0, Actual position: 2.",
+            "Property linkTitle is out of order. Expected position: 0, Actual position: 2",
         },
       ],
     },
@@ -148,7 +138,7 @@ tester.run("rule", rule, {
       errors: [
         {
           message:
-            "Property linkTitle is out of order. Expected position: 1, Actual position: 2.",
+            "Property linkTitle is out of order. Expected position: 1, Actual position: 2",
         },
       ],
     },
@@ -161,15 +151,18 @@ tester.run("rule", rule, {
       errors: [
         {
           message:
-            "Property title is out of order. Expected position: 0, Actual position: 1.",
+            "Property title is out of order. Expected position: 0, Actual position: 1",
         },
       ],
     },
     {
       text: "# test heading",
+      options: {
+        "title-must-match-h1": true,
+      },
       errors: [
         {
-          message: "No FrontMatter Title found to match to.",
+          message: "FrontMatter title is missing.",
         },
       ],
     },
