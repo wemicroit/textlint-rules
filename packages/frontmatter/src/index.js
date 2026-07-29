@@ -44,11 +44,11 @@ export default function (context, options = {}) {
       if (node.depth !== 1) {
         return;
       }
-      const text = node.children[0]?.raw; // Get text
+      const text = node.children.find(c => c.type === "Str")?.value; // Get text
       if (!matchingTitles) {
         return;
       }
-      if (text === frontmatter?.title) {
+      if (text.trim() === frontmatter?.title) {
         titleMatched = true;
         return;
       } else if (frontmatter?.title === undefined) {
