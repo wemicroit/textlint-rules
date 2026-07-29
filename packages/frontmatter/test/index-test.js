@@ -32,6 +32,14 @@ tester.run("rule", rule, {
         "title-must-match-h1": false,
       },
     },
+    {
+      text: "---\ntitle: test heading\n---\n\n",
+      options: {
+        "ordered-properties": ["title", "linkTitle"],
+        "require-ordered-properties": false,
+        "title-must-match-h1": false,
+      },
+    },
   ],
   invalid: [
     {
@@ -73,6 +81,7 @@ tester.run("rule", rule, {
       text: "---\ntitle: test heading\n---\n\n",
       options: {
         "ordered-properties": ["title", "linkTitle"],
+        "require-ordered-properties": true,
         "title-must-match-h1": false,
       },
       errors: [
@@ -95,6 +104,48 @@ tester.run("rule", rule, {
         {
           message:
             "Property linkTitle is out of order. Expected position: 1, Actual position: 0.",
+        },
+      ],
+    },
+    {
+      text: "---\ntitle: test heading\nextra: text \nlinkTitle: test heading\n---\n\n",
+      options: {
+        "ordered-properties": ["title", "linkTitle"],
+        "require-ordered-properties": false,
+        "title-must-match-h1": false,
+      },
+      errors: [
+        {
+          message:
+            "Property linkTitle is out of order. Expected position: 1, Actual position: 2.",
+        },
+      ],
+    },
+    {
+      text: "---\ntitle: test heading\nextra: text \nlinkTitle: test heading\n---\n\n",
+      options: {
+        "ordered-properties": ["linkTitle"],
+        "require-ordered-properties": false,
+        "title-must-match-h1": false,
+      },
+      errors: [
+        {
+          message:
+            "Property linkTitle is out of order. Expected position: 0, Actual position: 2.",
+        },
+      ],
+    },
+    {
+      text: "---\ntitle: test heading\nextra: text \nlinkTitle: test heading\n---\n\n",
+      options: {
+        "ordered-properties": ["title", "linkTitle"],
+        "require-ordered-properties": true,
+        "title-must-match-h1": false,
+      },
+      errors: [
+        {
+          message:
+            "Property linkTitle is out of order. Expected position: 1, Actual position: 2.",
         },
       ],
     },
