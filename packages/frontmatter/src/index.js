@@ -8,6 +8,7 @@ const yaml = require("js-yaml");
 export default function (context, options = {}) {
   const { Syntax, RuleError, report, locator } = context;
   const matchingTitles = options["title-must-match-h1"] ?? false;
+  const differingTitles = options["title-must-differ-linkTitle"] ?? false;
   const propertyOrder = options["ordered-properties"] ?? [];
   const requireOrdered = options["require-ordered-properties"] ?? false;
   var frontmatter;
@@ -21,6 +22,15 @@ export default function (context, options = {}) {
 
       if (matchingTitles && frontmatter?.title === undefined) {
         const ruleError = new RuleError("FrontMatter title is missing.");
+        report(node, ruleError);
+      }
+      if (
+        differingTitles &&
+        frontmatter?.title !== undefined &&
+        frontmatter.title === frontmatter.linkTitle
+      ){
+        const ruleError = new RuleError(
+          `"FrontMatter title & linkTitle are both ${frontmatter.title} when expected to differ. Either change value or remove the linkTitle frontmatter property.");
         report(node, ruleError);
       }
       if (propertyOrder.length === 0) {
