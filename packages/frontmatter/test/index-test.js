@@ -47,7 +47,7 @@ tester.run("rule", rule, {
       },
     },
     {
-      text:"---\ntitle: title\nlinkTitle: link\n---\n\n # test",
+      text: "---\ntitle: title\nlinkTitle: link\n---\n\n # test",
       options: {
         "title-must-differ-linkTitle": true,
       },
@@ -186,7 +186,8 @@ tester.run("rule", rule, {
       },
       errors: [
         {
-          message: "FrontMatter title & linkTitle are both title when expected to differ. Either change value or remove the linkTitle frontmatter property.",
+          message:
+            "FrontMatter title & linkTitle are both title when expected to differ. Either change value or remove the linkTitle frontmatter property.",
         },
       ],
     },
