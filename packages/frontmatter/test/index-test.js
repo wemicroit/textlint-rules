@@ -55,7 +55,8 @@ tester.run("rule", rule, {
       },
       errors: [
         {
-          message: "Header test heading does not match FrontMatter title. Expected header: test heading2",
+          message:
+            "Header test heading does not match FrontMatter title. Expected header: test heading2",
         },
       ],
     },

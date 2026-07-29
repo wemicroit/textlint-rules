@@ -18,7 +18,7 @@ export default function (context, options = {}) {
       // "Yaml" node
       const text = node.value; // Get text
       frontmatter = yaml.load(text);
-      
+
       if (matchingTitles && frontmatter?.title === undefined) {
         const ruleError = new RuleError("FrontMatter title is missing.");
         report(node, ruleError);
@@ -32,7 +32,7 @@ export default function (context, options = {}) {
         var position = actual.indexOf(propertyOrder[i]);
         if (position === -1 && requireOrdered) {
           const ruleError = new RuleError(
-            `Missing required property: ${propertyOrder[i]}.`,
+            `Missing required property: ${propertyOrder[i]}`,
           );
           report(node, ruleError);
         } else if (position === -1 && !requireOrdered) {
@@ -51,9 +51,14 @@ export default function (context, options = {}) {
         docHeader = node.children.find((c) => c.type === "Str")?.value ?? ""; // Get text
         initialHeader = true;
       }
-      if (matchingTitles && initialHeader && docHeader.trim() !== frontmatter?.title?.trim()) {
+      if (
+        matchingTitles &&
+        initialHeader &&
+        frontmatter?.title !== undefined &&
+        docHeader.trim() !== frontmatter.title.trim()
+      ) {
         const ruleError = new RuleError(
-          `Header ${docHeader.trim()} does not match FrontMatter title. Expected header: ${frontmatter?.title}`
+          `Header ${docHeader.trim()} does not match FrontMatter title. Expected header: ${frontmatter?.title}`,
         );
         report(node, ruleError);
       }
@@ -62,6 +67,10 @@ export default function (context, options = {}) {
     [Syntax.DocumentExit](node) {
       if (matchingTitles && docHeader === undefined) {
         report(node, new RuleError("No H1 Header found."));
+      }
+      if (matchingTitles && frontmatter === undefined) {
+        const ruleError = new RuleError("FrontMatter title is missing.");
+        report(node, ruleError);
       }
     },
   };
