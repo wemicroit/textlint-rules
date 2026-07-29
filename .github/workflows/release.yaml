@@ -88,6 +88,6 @@ jobs:
           name: "${{ github.event.inputs.package }} v${{ github.event.inputs.version }}"
           generate_release_notes: true
           draft: true
-          working-directory: packages/${{ github.event.inputs.package }}
+          working_directory: packages/${{ github.event.inputs.package }}
           files: |
             ./textlint-*.tgz

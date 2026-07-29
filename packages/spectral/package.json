@@ -1,12 +1,17 @@
 {
   "name": "textlint-rule-spectral",
   "version": "0.0.0",
-  "description": "",
+  "description": "Performs a validation of the yaml node within a document using Spectral.",
   "keywords": [
-    "textlintrule"
+    "textlintrule",
+    "spectral"
   ],
   "license": "MIT",
   "author": "WeMicroIt",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wemicroit/textlint-rules"
+  },
   "type": "commonjs",
   "main": "lib/index.js",
   "directories": {

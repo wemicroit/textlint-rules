@@ -1,12 +1,17 @@
 {
   "name": "textlint-rule-frontmatter",
   "version": "0.0.0",
-  "description": "",
+  "description": "A textlint rule plugin which performs document checks using the info provided in the frontmatter.",
   "keywords": [
-    "textlintrule"
+    "textlintrule",
+    "frontmatter"
   ],
   "license": "MIT",
   "author": "WeMicroIt",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wemicroit/textlint-rules"
+  },
   "type": "commonjs",
   "main": "lib/index.js",
   "directories": {
