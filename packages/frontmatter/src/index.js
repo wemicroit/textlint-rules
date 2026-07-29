@@ -9,6 +9,7 @@ export default function (context, options = {}) {
   const { Syntax, RuleError, report, locator } = context;
   const matchingTitles = options["title-must-match-h1"] ?? true;
   const propertyOrder = options["ordered-properties"] ?? [];
+  const requireOrdered = options["require-ordered-properties"] ?? false;
   var frontmatter;
   var titleMatched;
   return {
@@ -20,16 +21,19 @@ export default function (context, options = {}) {
         return;
       }
       const actual = Object.keys(frontmatter);
+      var skipped = 0;
       for (var i = 0; i < propertyOrder.length; i++) {
         var position = actual.indexOf(propertyOrder[i]);
-        if (position === -1) {
+        if (position === -1 && requireOrdered) {
           const ruleError = new RuleError(
             `Missing required property: ${propertyOrder[i]}.`,
           );
           report(node, ruleError);
-        } else if (position !== i) {
+        } else if (position === -1 && !requireOrdered) {
+          skipped++;
+        } else if (position !== i-skipped) {
           const ruleError = new RuleError(
-            `Property ${propertyOrder[i]} is out of order. Expected position: ${i}, Actual position: ${position}.`,
+            `Property ${propertyOrder[i]} is out of order. Expected position: ${i-skipped}, Actual position: ${position}.`,
           );
           report(node, ruleError);
         }

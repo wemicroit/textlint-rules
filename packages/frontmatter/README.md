@@ -41,6 +41,14 @@ with the order in which they are defined representing the order in which they ar
 - **Value type:** `string[]`
 - **Default Value:** `[]`
 
+### require-ordered-properties
+
+Enforces that all the ordered properties specified via `ordered-properties` must be present.
+
+- **Config Property:** `require-ordered-properties`
+- **Value type:** `boolean`
+- **Default Value:** `false`
+
 ### title-must-match-h1
 
 Ensures that all documents must have a front matter title and
