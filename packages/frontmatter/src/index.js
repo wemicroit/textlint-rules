@@ -31,9 +31,9 @@ export default function (context, options = {}) {
           report(node, ruleError);
         } else if (position === -1 && !requireOrdered) {
           skipped++;
-        } else if (position !== i-skipped) {
+        } else if (position !== i - skipped) {
           const ruleError = new RuleError(
-            `Property ${propertyOrder[i]} is out of order. Expected position: ${i-skipped}, Actual position: ${position}.`,
+            `Property ${propertyOrder[i]} is out of order. Expected position: ${i - skipped}, Actual position: ${position}.`,
           );
           report(node, ruleError);
         }
