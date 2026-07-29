@@ -16,6 +16,7 @@ export default function (context, options = {}) {
     "*.md",
     "**/*.md",
   ];
+  const excludePaths = options["exclude-paths"] ?? [];
   var frontmatter;
   var docHeader;
   var initialHeader;
@@ -23,6 +24,10 @@ export default function (context, options = {}) {
   const filePath = context.getFilePath();
 
   if (filePath && !micromatch.isMatch(filePath, includePaths)) {
+        // Skip entire rule for this file
+    return {};
+  }
+  if (filePath && micromatch.isMatch(filePath, excludePaths)) {
     // Skip entire rule for this file
     return {};
   }
