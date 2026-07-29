@@ -13,7 +13,7 @@ tester.run("rule", rule, {
       text: "## test heading",
     },
     {
-      text: '---\ntitle: OpenTelemetry Semantic Conventions\n---\n\n# <img src="https://opentelemetry.io/img/logos/opentelemetry-logo-nav.png" alt="OpenTelemetry Icon" width="45" height=""> OpenTelemetry Semantic Conventions'
+      text: '---\ntitle: OpenTelemetry Semantic Conventions\n---\n\n# <img src="https://opentelemetry.io/img/logos/opentelemetry-logo-nav.png" alt="OpenTelemetry Icon" width="45" height=""> OpenTelemetry Semantic Conventions',
     },
     {
       text: "---\ntitle: test heading2\n---\n\n # test heading \n\n ## test heading2",
