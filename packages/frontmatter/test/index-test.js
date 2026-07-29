@@ -46,6 +46,18 @@ tester.run("rule", rule, {
         "title-must-match-h1": false,
       },
     },
+    {
+      text:"---\ntitle: title\nlinkTitle: link\n---\n\n # test"
+      options: {
+        "title-must-differ-linkTitle": true,
+      }
+    },
+    {
+      text: "---\ntitle: title\nlinkTitle: title\n---\n\n # test",
+      options: {
+        "title-must-differ-linkTitle": false,
+      }
+    },
   ],
   invalid: [
     {

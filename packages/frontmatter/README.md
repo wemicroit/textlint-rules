@@ -60,6 +60,15 @@ matches the h1 used in the document.
 - **Value type:** `boolean`
 - **Default Value:** `false`
 
+### title-must-differ-linkTitle
+
+Ensures that the linkTitle frontmatter property differs to the
+title frontmatter property.
+
+- **Config Property:** `title-must-differ-linkTitle`
+- **Value type:** `boolean`
+- **Default Value:** `false`
+
 ## License
 
 MIT © WeMicroIt

@@ -30,7 +30,7 @@ export default function (context, options = {}) {
         frontmatter.title === frontmatter.linkTitle
       ){
         const ruleError = new RuleError(
-          `"FrontMatter title & linkTitle are both ${frontmatter.title} when expected to differ. Either change value or remove the linkTitle frontmatter property.");
+          `FrontMatter title & linkTitle are both ${frontmatter.title} when expected to differ. Either change value or remove the linkTitle frontmatter property.`);
         report(node, ruleError);
       }
       if (propertyOrder.length === 0) {
