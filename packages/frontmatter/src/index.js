@@ -44,7 +44,7 @@ export default function (context, options = {}) {
       if (node.depth !== 1) {
         return;
       }
-      const text = node.children.find(c => c.type === "Str")?.value; // Get text
+      const text = node.children.find((c) => c.type === "Str")?.value; // Get text
       if (!matchingTitles) {
         return;
       }
