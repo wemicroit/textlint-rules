@@ -11,7 +11,7 @@ export default function (context, options = {}) {
   const propertyOrder = options["ordered-properties"] ?? [];
   const requireOrdered = options["require-ordered-properties"] ?? false;
   var frontmatter;
-  var titleMatched;
+  var headerContent;
   return {
     ["Yaml"](node) {
       // "Yaml" node
@@ -33,7 +33,7 @@ export default function (context, options = {}) {
           skipped++;
         } else if (position !== i - skipped) {
           const ruleError = new RuleError(
-            `Property ${propertyOrder[i]} is out of order. Expected position: ${i - skipped}, Actual position: ${position}.`,
+            `Property ${propertyOrder[i]} is out of order. Expected position: ${i - skipped}, Actual position: ${position}`,
           );
           report(node, ruleError);
         }
@@ -41,38 +41,35 @@ export default function (context, options = {}) {
     },
     ["Header"](node) {
       // "Header" node
-      if (node.depth !== 1) {
-        return;
-      }
-      const text = node.children.find((c) => c.type === "Str")?.value; // Get text
-      if (!matchingTitles) {
-        return;
-      }
-      if (text.trim() === frontmatter?.title) {
-        titleMatched = true;
-        return;
-      } else if (frontmatter?.title === undefined) {
-        const ruleError = new RuleError(
-          "No FrontMatter Title found to match to.",
-        );
-        titleMatched = false;
-        report(node, ruleError);
-      } else {
-        const ruleError = new RuleError(
-          "Header does not match FrontMatter title.",
-        );
-        titleMatched = false;
-        report(node, ruleError);
+      if (node.depth === 1 && headerContent === undefined) {
+        headerContent = node.children.find((c) => c.type === "Str")?.value ?? ""; // Get text
       }
     },
     [Syntax.DocumentExit](node) {
-      if (
-        matchingTitles &&
-        titleMatched === undefined &&
-        frontmatter?.title !== undefined
-      ) {
-        report(node, new RuleError("No Header matches FrontMatter title."));
+      if (matchingTitles) {
+        checkTitleMatches(frontmatter?.title, headerContent);
       }
     },
   };
+}
+
+function checkTitleMatches(title, header) {
+  var missing = false;
+  if (header === undefined) {
+    report(node, new RuleError("No Header found."));
+    missing = true;
+  }
+  if (title === undefined) {
+    const ruleError = new RuleError(
+      "FrontMatter title is missing.",
+    );
+    report(node, ruleError);
+    missing = true;
+  }
+  if (!missing && header.trim() !== title.trim()) {
+    const ruleError = new RuleError(
+      `Header ${text.trim()} does not match FrontMatter title. Expected header: ${frontmatter?.title}`,
+    );
+    report(node, ruleError);
+  }
 }
