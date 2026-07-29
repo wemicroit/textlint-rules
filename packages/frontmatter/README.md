@@ -2,7 +2,9 @@
 
 A textlint rule plugin which performs the following checks on the Yaml Frontmatter in the docs:
 
-- Title matches h1 heading
+- Frontmatter title matches h1 heading in document.
+- A collection of ordered properties which appear at start of frontmatter.
+- If the ordered properties are all required to be present in the frontmatter.
 
 ## Install
 
@@ -51,12 +53,12 @@ Enforces that all the ordered properties specified via `ordered-properties` must
 
 ### title-must-match-h1
 
-Ensures that all documents must have a front matter title and
-that it must match the h1 used in the document.
+Ensures that all documents MUST have a frontmatter title which
+matches the h1 used in the document.
 
 - **Config Property:** `title-must-match-h1`
 - **Value type:** `boolean`
-- **Default Value:** `true`
+- **Default Value:** `false`
 
 ## License
 

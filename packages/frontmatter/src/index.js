@@ -7,16 +7,22 @@ const yaml = require("js-yaml");
  */
 export default function (context, options = {}) {
   const { Syntax, RuleError, report, locator } = context;
-  const matchingTitles = options["title-must-match-h1"] ?? true;
+  const matchingTitles = options["title-must-match-h1"] ?? false;
   const propertyOrder = options["ordered-properties"] ?? [];
   const requireOrdered = options["require-ordered-properties"] ?? false;
   var frontmatter;
-  var titleMatched;
+  var docHeader;
+  var initialHeader;
   return {
     ["Yaml"](node) {
       // "Yaml" node
       const text = node.value; // Get text
       frontmatter = yaml.load(text);
+
+      if (matchingTitles && frontmatter?.title === undefined) {
+        const ruleError = new RuleError("FrontMatter title is missing.");
+        report(node, ruleError);
+      }
       if (propertyOrder.length === 0) {
         return;
       }
@@ -26,14 +32,14 @@ export default function (context, options = {}) {
         var position = actual.indexOf(propertyOrder[i]);
         if (position === -1 && requireOrdered) {
           const ruleError = new RuleError(
-            `Missing required property: ${propertyOrder[i]}.`,
+            `Missing required property: ${propertyOrder[i]}`,
           );
           report(node, ruleError);
         } else if (position === -1 && !requireOrdered) {
           skipped++;
         } else if (position !== i - skipped) {
           const ruleError = new RuleError(
-            `Property ${propertyOrder[i]} is out of order. Expected position: ${i - skipped}, Actual position: ${position}.`,
+            `Property ${propertyOrder[i]} is out of order. Expected position: ${i - skipped}, Actual position: ${position}`,
           );
           report(node, ruleError);
         }
@@ -41,37 +47,30 @@ export default function (context, options = {}) {
     },
     ["Header"](node) {
       // "Header" node
-      if (node.depth !== 1) {
-        return;
+      if (node.depth === 1 && initialHeader === undefined) {
+        docHeader = node.children.find((c) => c.type === "Str")?.value ?? ""; // Get text
+        initialHeader = true;
       }
-      const text = node.children.find((c) => c.type === "Str")?.value; // Get text
-      if (!matchingTitles) {
-        return;
-      }
-      if (text.trim() === frontmatter?.title) {
-        titleMatched = true;
-        return;
-      } else if (frontmatter?.title === undefined) {
-        const ruleError = new RuleError(
-          "No FrontMatter Title found to match to.",
-        );
-        titleMatched = false;
-        report(node, ruleError);
-      } else {
-        const ruleError = new RuleError(
-          "Header does not match FrontMatter title.",
-        );
-        titleMatched = false;
-        report(node, ruleError);
-      }
-    },
-    [Syntax.DocumentExit](node) {
       if (
         matchingTitles &&
-        titleMatched === undefined &&
-        frontmatter?.title !== undefined
+        initialHeader &&
+        frontmatter?.title !== undefined &&
+        docHeader.trim() !== frontmatter.title.trim()
       ) {
-        report(node, new RuleError("No Header matches FrontMatter title."));
+        const ruleError = new RuleError(
+          `Header ${docHeader.trim()} does not match FrontMatter title. Expected header: ${frontmatter?.title}`,
+        );
+        report(node, ruleError);
+      }
+      initialHeader = false;
+    },
+    [Syntax.DocumentExit](node) {
+      if (matchingTitles && docHeader === undefined) {
+        report(node, new RuleError("No H1 Header found."));
+      }
+      if (matchingTitles && frontmatter === undefined) {
+        const ruleError = new RuleError("FrontMatter title is missing.");
+        report(node, ruleError);
       }
     },
   };
