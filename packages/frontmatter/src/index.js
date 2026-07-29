@@ -47,13 +47,13 @@ export default function (context, options = {}) {
     },
     [Syntax.DocumentExit](node) {
       if (matchingTitles) {
-        checkTitleMatches(frontmatter?.title, headerContent);
+        checkTitleMatches(report, frontmatter?.title, headerContent);
       }
     },
   };
 }
 
-function checkTitleMatches(title, header) {
+function checkTitleMatches(report, title, header) {
   var missing = false;
   if (header === undefined) {
     report(node, new RuleError("No Header found."));
