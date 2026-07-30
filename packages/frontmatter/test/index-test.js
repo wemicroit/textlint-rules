@@ -5,13 +5,19 @@ const tester = new TextLintTester();
 // ruleName, rule, { valid, invalid }
 tester.run("rule", rule, {
   valid: [
+    // no problem
     {
       inputPath: "test/data/README.md",
     },
     {
       inputPath: "test/data/model.txt",
     },
-    // no problem
+    {
+      inputPath: "README.md",
+      options: {
+        "exclude-paths": ["README.md"],
+      },
+    },
     {
       text: "---\ntitle: test heading\n---\n\n # test heading \n\n ## test heading2",
     },
