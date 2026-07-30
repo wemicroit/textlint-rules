@@ -1,6 +1,5 @@
 const yaml = require("js-yaml");
 const micromatch = require("micromatch");
-const path = require("path");
 
 /**
  * @param {import("@textlint/types").TextlintRuleContext} context
@@ -13,7 +12,10 @@ export default function (context, options = {}) {
   const differingTitles = options["title-must-differ-linkTitle"] ?? false;
   const propertyOrder = options["ordered-properties"] ?? [];
   const requireOrdered = options["require-ordered-properties"] ?? false;
-  const includePaths = options["require-ordered-properties"] ?? ["*.md", "**/*.md"];
+  const includePaths = options["require-ordered-properties"] ?? [
+    "*.md",
+    "**/*.md",
+  ];
   var frontmatter;
   var docHeader;
   var initialHeader;

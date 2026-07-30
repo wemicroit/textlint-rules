@@ -67,8 +67,7 @@ tester.run("rule", rule, {
       inputPath: "test/data/plain.md",
       errors: [
         {
-          message:
-            "FrontMatter is missing.",
+          message: "FrontMatter is missing.",
         },
       ],
     },
