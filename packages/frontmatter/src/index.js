@@ -12,17 +12,19 @@ export default function (context, options = {}) {
   const differingTitles = options["title-must-differ-linkTitle"] ?? false;
   const propertyOrder = options["ordered-properties"] ?? [];
   const requireOrdered = options["require-ordered-properties"] ?? false;
-  const includePaths = options["require-ordered-properties"] ?? [
-    "*.md",
-    "**/*.md",
-  ];
+  const includePaths = options["include-paths"] ?? ["*.md", "**/*.md"];
+  const excludePaths = options["exclude-paths"] ?? undefined;
   var frontmatter;
   var docHeader;
   var initialHeader;
 
-  const filePath = context.getFilePath();
+  const filePath = context.getFilePath()?.replace(process.cwd() + "/", "");
 
   if (filePath && !micromatch.isMatch(filePath, includePaths)) {
+    // Skip entire rule for this file
+    return {};
+  }
+  if (filePath && excludePaths && micromatch.isMatch(filePath, excludePaths)) {
     // Skip entire rule for this file
     return {};
   }

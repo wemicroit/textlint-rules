@@ -34,6 +34,15 @@ textlint --rule frontmatter README.md
 
 ## Configuration Options
 
+### exclude-paths
+
+Defines a list of paths which are to be excluded from this rule,
+in particular the requirement of the document to contain frontmatter.
+
+- **Config Property:** `exclude-paths`
+- **Value type:** `string[]`
+- **Default Value:** `[]`
+
 ### include-paths
 
 Defines a list of paths which are to be processed by this rule,
