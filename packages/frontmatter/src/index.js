@@ -1,4 +1,5 @@
 const yaml = require("js-yaml");
+const micromatch = require("micromatch");
 
 /**
  * @param {import("@textlint/types").TextlintRuleContext} context
@@ -11,22 +12,39 @@ export default function (context, options = {}) {
   const differingTitles = options["title-must-differ-linkTitle"] ?? false;
   const propertyOrder = options["ordered-properties"] ?? [];
   const requireOrdered = options["require-ordered-properties"] ?? false;
+  const includePaths = options["require-ordered-properties"] ?? [
+    "*.md",
+    "**/*.md",
+  ];
   var frontmatter;
   var docHeader;
   var initialHeader;
+
+  const filePath = context.getFilePath();
+
+  if (filePath && !micromatch.isMatch(filePath, includePaths)) {
+    // Skip entire rule for this file
+    return {};
+  }
+
   return {
     ["Yaml"](node) {
       // "Yaml" node
       const text = node.value; // Get text
       frontmatter = yaml.load(text);
 
-      if (matchingTitles && frontmatter?.title === undefined) {
+      if (frontmatter === undefined) {
+        const ruleError = new RuleError("FrontMatter is missing.");
+        report(node, ruleError);
+        return;
+      }
+      if (matchingTitles && frontmatter.title === undefined) {
         const ruleError = new RuleError("FrontMatter title is missing.");
         report(node, ruleError);
       }
       if (
         differingTitles &&
-        frontmatter?.title !== undefined &&
+        frontmatter.title !== undefined &&
         frontmatter.title === frontmatter.linkTitle
       ) {
         const ruleError = new RuleError(
@@ -76,10 +94,14 @@ export default function (context, options = {}) {
       initialHeader = false;
     },
     [Syntax.DocumentExit](node) {
+      if (frontmatter === undefined) {
+        const ruleError = new RuleError("FrontMatter is missing.");
+        report(node, ruleError);
+      }
       if (matchingTitles && docHeader === undefined) {
         report(node, new RuleError("No H1 Header found."));
       }
-      if (matchingTitles && frontmatter === undefined) {
+      if (matchingTitles && frontmatter && frontmatter.title === undefined) {
         const ruleError = new RuleError("FrontMatter title is missing.");
         report(node, ruleError);
       }

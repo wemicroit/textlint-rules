@@ -34,6 +34,15 @@ textlint --rule frontmatter README.md
 
 ## Configuration Options
 
+### include-paths
+
+Defines a list of paths which are to be processed by this rule,
+in particular the requirement of the document to contain frontmatter.
+
+- **Config Property:** `include-paths`
+- **Value type:** `string[]`
+- **Default Value:** `["*.md", "**/*.md"]`
+
 ### ordered-properties
 
 Defines a list of frontmatter properties that are required to be present,

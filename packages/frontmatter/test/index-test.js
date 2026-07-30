@@ -5,12 +5,15 @@ const tester = new TextLintTester();
 // ruleName, rule, { valid, invalid }
 tester.run("rule", rule, {
   valid: [
+    {
+      inputPath: "test/data/README.md",
+    },
+    {
+      inputPath: "test/data/model.txt",
+    },
     // no problem
     {
       text: "---\ntitle: test heading\n---\n\n # test heading \n\n ## test heading2",
-    },
-    {
-      text: "## test heading",
     },
     {
       text: '---\ntitle: OpenTelemetry Semantic Conventions\n---\n\n# <img src="https://opentelemetry.io/img/logos/opentelemetry-logo-nav.png" alt="OpenTelemetry Icon" width="45" height=""> OpenTelemetry Semantic Conventions',
@@ -60,6 +63,14 @@ tester.run("rule", rule, {
     },
   ],
   invalid: [
+    {
+      inputPath: "test/data/plain.md",
+      errors: [
+        {
+          message: "FrontMatter is missing.",
+        },
+      ],
+    },
     {
       text: "---\ntitle: test heading2\n---\n\n # test heading \n\n ## test heading2",
       options: {
@@ -175,7 +186,7 @@ tester.run("rule", rule, {
       },
       errors: [
         {
-          message: "FrontMatter title is missing.",
+          message: "FrontMatter is missing.",
         },
       ],
     },
