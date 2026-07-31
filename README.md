@@ -11,7 +11,7 @@
 ![GitHub License](https://img.shields.io/github/license/wemicroit/textlint-rules?style=flat-square)
 
 This repo is a collection of textlint rules with the rules residing in [Packages](packages/README.md) and
-is distributed as NPM packages via npmjs.com.
+is distributed as NPM packages via [npmjs.com](https://www.npmjs.com/)
 
 ## Contributors
 
