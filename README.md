@@ -10,7 +10,8 @@
 ![GitHub watchers](https://img.shields.io/github/watchers/wemicroit/textlint-rules?style=flat-square&logo=github&label=Watchers)
 ![GitHub License](https://img.shields.io/github/license/wemicroit/textlint-rules?style=flat-square)
 
-This repo is a collection of textlint rules with the rules residing in [Packages](packages/README.md) and our distributed as npm packages.
+This repo is a collection of textlint rules with the rules residing in [Packages](packages/README.md) and
+is distributed as NPM packages via npmjs.com.
 
 ## Contributors
 
