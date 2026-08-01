@@ -11,14 +11,14 @@
     {
       groupName: "all patching versions",
       matchUpdateTypes: ["patch", "digest"],
-      autoMerge: true,
+      automerge: true,
       schedule: ["before 6am every weekday"],
     },
     {
       groupName: "all minor ci versions",
       matchCategories: ["ci"],
       matchUpdateTypes: ["minor"],
-      autoMerge: true,
+      automerge: true,
       schedule: ["before 6am every weekday"],
     },
     {
