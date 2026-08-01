@@ -36,8 +36,10 @@
       matchUpdateTypes: ["minor", "major"],
       matchSourceUrls: [
         "https://github.com/textlint/textlint",
+        "https://github.com/eslint/eslint",
+        "https://github.com/stoplightio/spectral",
       ],
-    }
+    },
   ],
   customManagers: [
     {
