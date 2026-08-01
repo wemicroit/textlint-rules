@@ -30,7 +30,8 @@
       schedule: ["before 8am on Monday"],
     },
     {
-      groupName: "{{sourceRepoName}} v{{newMajor}}.{{newMinor}}.x",
+      groupName: "{{sourceRepoName}}",
+      groupSlug: "{{sourceRepoName}}-v{{newMajor}}.{{newMinor}}.x",
       matchCategories: ["js"],
       matchUpdateTypes: ["minor", "major"],
       matchSourceUrls: [
