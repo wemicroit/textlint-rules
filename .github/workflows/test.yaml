@@ -32,7 +32,7 @@ jobs:
           default: "frontmatter"
           deny: "ci"
 
-  build:
+  test:
     name: Package / ${{ matrix.packages }} [Node ${{ matrix.node-version }}]
     runs-on: ubuntu-24.04
     needs: analyze
@@ -60,7 +60,7 @@ jobs:
     runs-on: ubuntu-24.04
     needs:
       - analyze
-      - build
+      - test
     if: ${{ always() }} # Always run so we can detect failures/skips
     steps:
       - name: Count builds
@@ -71,9 +71,9 @@ jobs:
           fi
           components='${{ needs.analyze.outputs.components }}'
           count=$(echo "$components" | jq 'length')
-          echo "ℹ️ Build count: $count"
+          echo "ℹ️ Component count: $count"
 
-      - name: Check tesf results
+      - name: Check test results
         run: |
           if [ "${{ needs.build.result }}" = "skipped" ]; then
             echo "::error:: Test job was skipped — no builds executed."
