@@ -1,4 +1,4 @@
-name: Test
+name: Build
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
   analyze:
     runs-on: ubuntu-24.04
     outputs:
-      components: ${{steps.select_gem.outputs.components}}
+      gems: ${{steps.select_component.outputs.components}}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -24,29 +24,32 @@ jobs:
         id: select_component
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
-  
+
   build:
-    name: Package / ${{ matrix.packages }} [Node ${{ matrix.node-version }}]
+    name: Package / ${{ matrix.packages }}
     runs-on: ubuntu-24.04
     needs: analyze
     strategy:
       matrix:
-        node-version: [14.x, 18.x, 20.x, 22.x, 24.x, 26.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        packages: ${{ fromJson(needs.analyze.outputs.components) }}
+        packages: ${{ fromJson(needs.analyze.outputs.Components) }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 24.x
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 24.x
           cache: "npm"
 
       - run: npm ci --ignore-scripts
         working-directory: packages/${{ matrix.packages }}
 
-      - run: npm test
+      - run: npm run build
+        working-directory: packages/${{ matrix.packages }}
+
+      # note if locally preparing packages you will need to explicitly set the version in package.json.
+      - run: npm pack
         working-directory: packages/${{ matrix.packages }}
 
   verify:
@@ -58,7 +61,7 @@ jobs:
     steps:
       - name: Count builds
         run: |
-          if [ "${{ needs.analyze.outputs.components }}" = "[]" ]; then
+          if [ "${{ needs.analyze.outputs.gems }}" = "[]" ]; then
             echo "::error:: ❌ No gems selected — build matrix was empty."
             exit 1
           fi
