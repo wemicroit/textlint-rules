@@ -63,7 +63,7 @@ jobs:
       - test
     if: ${{ always() }} # Always run so we can detect failures/skips
     steps:
-      - name: Count builds
+      - name: Count components
         run: |
           if [ "${{ needs.analyze.outputs.components }}" = "[]" ]; then
             echo "::error:: ❌ No components selected — build matrix was empty."
