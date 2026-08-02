@@ -18,6 +18,7 @@ permissions:
 
 jobs:
   analyze:
+    name: Analyze
     runs-on: ubuntu-24.04
     outputs:
       components: ${{steps.select_component.outputs.components}}
@@ -57,6 +58,7 @@ jobs:
         working-directory: packages/${{ matrix.packages }}
 
   verify:
+    name: Verify
     runs-on: ubuntu-24.04
     needs:
       - analyze
@@ -75,7 +77,7 @@ jobs:
 
       - name: Check test results
         run: |
-          if [ "${{ needs.build.result }}" = "skipped" ]; then
+          if [ "${{ needs.test.result }}" = "skipped" ]; then
             echo "::error:: Test job was skipped — no builds executed."
             exit 1
           fi
