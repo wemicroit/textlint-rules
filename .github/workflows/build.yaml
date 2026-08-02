@@ -68,13 +68,13 @@ jobs:
     steps:
       - name: Count builds
         run: |
-          if [ "${{ needs.analyze.outputs.gems }}" = "[]" ]; then
-            echo "::error:: ❌ No gems selected — build matrix was empty."
+          if [ "${{ needs.analyze.outputs.components }}" = "[]" ]; then
+            echo "::error:: ❌ No components selected — build matrix was empty."
             exit 1
           fi
-          gems='${{ needs.analyze.outputs.gems }}'
-          count=$(echo "$gems" | jq 'length')
-          echo "ℹ️ Build count: $count"
+          components='${{ needs.analyze.outputs.components }}'
+          count=$(echo "$components" | jq 'length')
+          echo "ℹ️ Component count: $count"
 
       - name: Check build results
         run: |

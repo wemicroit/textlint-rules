@@ -66,21 +66,21 @@ jobs:
       - name: Count builds
         run: |
           if [ "${{ needs.analyze.outputs.components }}" = "[]" ]; then
-            echo "::error:: ❌ No gems selected — build matrix was empty."
+            echo "::error:: ❌ No components selected — build matrix was empty."
             exit 1
           fi
-          gems='${{ needs.analyze.outputs.gems }}'
-          count=$(echo "$gems" | jq 'length')
+          components='${{ needs.analyze.outputs.components }}'
+          count=$(echo "$components" | jq 'length')
           echo "ℹ️ Build count: $count"
 
-      - name: Check build results
+      - name: Check tesf results
         run: |
           if [ "${{ needs.build.result }}" = "skipped" ]; then
-            echo "::error:: Build job was skipped — no builds executed."
+            echo "::error:: Test job was skipped — no builds executed."
             exit 1
           fi
           if [ "${{ needs.build.result }}" != "success" ]; then
-            echo "::error:: ❌ One or more builds failed."
+            echo "::error:: ❌ One or more tests failed."
             exit 1
           fi
-          echo "::notice:: ✅ All builds ran and passed."
+          echo "::notice:: ✅ All tests ran and passed."
