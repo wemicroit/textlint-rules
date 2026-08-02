@@ -1,4 +1,4 @@
-name: Analyze
+name: PR Analyze
 
 on:
   workflow_dispatch:

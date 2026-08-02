@@ -48,8 +48,7 @@ jobs:
       - run: npm run build
         working-directory: packages/${{ github.event.inputs.package }}
 
-      # note if locally preparing packages you will need to explicitly set the version in package.json,
-      # see for discussion https://github.com/thlorenz/doctoc/pull/289#discussion_r2649551681 for more details.
+      # note if locally preparing packages you will need to explicitly set the version in package.json.
       - run: npm pack
         working-directory: packages/${{ github.event.inputs.package }}
 

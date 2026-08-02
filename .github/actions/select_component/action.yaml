@@ -1,0 +1,75 @@
+name: Select Components
+description: Selects the Components
+inputs:
+  token:
+    description: Token used to add labels
+    required: false
+    type: string
+  default:
+    description: Component string to be used if not able use pr label
+    required: false
+    type: string
+    default: ""
+  deny:
+    description: Comma seperated list of Labels which should not be treated as a component.
+    required: false
+    type: string
+    default: ""
+  main:
+    description: The main label which indicates everything is impacted.
+    required: false
+    type: string
+    default: ""
+outputs:
+  components:
+    description: The components which have been changed
+    value: ${{steps.select.outputs.components}}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+    - uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13 # v7.0.0
+      name: Calculate Components
+      if: ${{ github.event_name == 'pull_request' }}
+      continue-on-error: true
+      id: label
+      with:
+        repo-token: "${{ inputs.token }}"
+        sync-labels: true
+
+    - name: Select Components
+      id: select
+      shell: bash
+      run: |
+        # Select Components
+        default="${{ inputs.default }}"
+        deny=$(printf '%s\n' "${{ inputs.deny }}" | jq -R 'split(",")')
+        labels="${{ steps.label.outputs.all-labels || inputs.default }}"
+        # labels is a comma-separated string, convert to JSON array
+        json=$(printf '%s\n' "$labels" | jq -R 'split(",")')
+
+        # Remove deny-listed items
+        filtered=$(echo "$json" | jq --argjson deny "$deny" '[ .[] | select(. as $l | $deny | index($l) | not) ]')
+
+        # If main is present", remove all components except main
+        if echo "${{ inputs.main }}" | jq -e 'index("${{ inputs.main }}")' >/dev/null; then
+          filtered='["${{ inputs.main }}"]'
+        fi
+
+        # Guarantee valid JSON by adding default
+        if [ -z "$filtered" ] || [ "$filtered" = "null" ] || [ "$(echo "$filtered" | jq 'length')" -eq 0 ]; then
+          filtered=$(jq -n --arg d "$default" 'if $d == "" then [] else [ $d ] end')
+        fi
+
+        {
+          echo "components<<EOF"
+          echo "$filtered"
+          echo "EOF"
+        } >> "$GITHUB_OUTPUT"
+
+    - shell: bash
+      run: |
+        # Log Components Selected
+        echo "Components selected = ${{ steps.select.outputs.components }}"
