@@ -81,7 +81,7 @@ jobs:
             echo "::error:: Test job was skipped — no builds executed."
             exit 1
           fi
-          if [ "${{ needs.build.result }}" != "success" ]; then
+          if [ "${{ needs.test.result }}" != "success" ]; then
             echo "::error:: ❌ One or more tests failed."
             exit 1
           fi
