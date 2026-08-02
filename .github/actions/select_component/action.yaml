@@ -15,6 +15,11 @@ inputs:
     required: false
     type: string
     default: ""
+  main:
+    description: The main label which indicates everything is impacted.
+    required: false
+    type: string
+    default: ""
 outputs:
   components:
     description: The components which have been changed
@@ -48,14 +53,14 @@ runs:
         # Remove deny-listed items
         filtered=$(echo "$json" | jq --argjson deny "$deny" '[ .[] | select(. as $l | $deny | index($l) | not) ]')
 
-        # If "everything" is present", collapse to ["everything"]
-        if echo "$filtered" | jq -e 'index("Everything")' >/dev/null; then
-          filtered='["everything"]'
+        # If main is present", remove all components except main
+        if echo "${{ inputs.main }}" | jq -e 'index("${{ inputs.main }}")' >/dev/null; then
+          filtered='["${{ inputs.main }}"]'
         fi
 
         # Guarantee valid JSON by adding default
         if [ -z "$filtered" ] || [ "$filtered" = "null" ] || [ "$(echo "$filtered" | jq 'length')" -eq 0 ]; then
-          filtered=$(jq -n --arg d "$default" '[ $d ]')
+          filtered=$(jq -n --arg d "$default" 'if $d == "" then [] else [ $d ] end')
         fi
 
         {

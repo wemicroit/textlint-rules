@@ -4,9 +4,14 @@ on:
   push:
     branches:
       - main
+    paths: &path_filters
+      - .github/actions/select_component/action.yaml
+      - .github/workflows/build.yaml
+      - packages/**/**
   pull_request:
     branches:
       - main
+    paths: *path_filters
 
 permissions:
   contents: read
@@ -24,6 +29,8 @@ jobs:
         id: select_component
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
+          default: "frontmatter"
+          deny: "ci"
 
   build:
     name: Package / ${{ matrix.packages }}
