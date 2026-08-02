@@ -1,6 +1,7 @@
 # textlint-rule-cspell
 
-
+A textlint rule plugin which performs a cspell check of the docs.
+When a single suggestion is identified, the correction is performed.
 
 ## Install
 
@@ -24,7 +25,7 @@ Via `.textlintrc.json`(Recommended)
 
 Via CLI
 
-```
+```shell
 textlint --rule cspell README.md
 ```
 

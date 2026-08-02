@@ -24,4 +24,5 @@ export default function (context, options = {}) {
         report(node, ruleError);
       }
     }
-};
+  };
+}
