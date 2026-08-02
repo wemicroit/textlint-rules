@@ -24,7 +24,8 @@ jobs:
         id: select_component
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
-  
+          deny: "ci"
+
   build:
     name: Package / ${{ matrix.packages }} [Node ${{ matrix.node-version }}]
     runs-on: ubuntu-24.04
