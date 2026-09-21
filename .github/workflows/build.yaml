@@ -19,7 +19,7 @@ permissions:
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       components: ${{steps.select_component.outputs.components}}
     steps:
@@ -35,7 +35,7 @@ jobs:
 
   build:
     name: Package / ${{ matrix.packages }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: analyze
     strategy:
       matrix:
@@ -62,7 +62,7 @@ jobs:
 
   verify:
     name: Verify
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - analyze
       - build
